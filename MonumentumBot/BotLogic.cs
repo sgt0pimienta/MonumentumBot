@@ -82,9 +82,10 @@ namespace MonumentumBot
 
         public void DownloadMemos()
         {
-            TableQuery<ScheduledMemo> query = new TableQuery<ScheduledMemo>().Where(TableQuery.GenerateFilterCondition("MemoCompleted", QueryComparisons.Equal, "false"));
+            TableQuery<ScheduledMemo> query = new TableQuery<ScheduledMemo>().Where(TableQuery.GenerateFilterConditionForBool("MemoCompleted", QueryComparisons.Equal, false));
+            var queryResult = cloudMemoTable.ExecuteQuery(query);
 
-            foreach (ScheduledMemo entity in cloudMemoTable.ExecuteQuery(query))
+            foreach (ScheduledMemo entity in queryResult)
             {
                     memoList.Add(entity);
             }
@@ -102,7 +103,6 @@ namespace MonumentumBot
 
         public void UpdateMemos()
         {
-            bool duplicateMemo = new bool();
             foreach (Update element in updateList)
             {
                 var newMemo = monumentumReadWrite.WriteMemo(element);
@@ -111,7 +111,7 @@ namespace MonumentumBot
                     TableOperation invalidMemoRetrieve = TableOperation.Retrieve("memo", newMemo.MemoID);
                     TableResult invalidMemoRetrieveResult = cloudMemoTable.Execute(invalidMemoRetrieve);
 
-                    if(invalidMemoRetrieveResult.Result == null)
+                    if (invalidMemoRetrieveResult.Result == null)
                     {
                         PostMessage(newMemo);
                         newMemo.MemoCompleted = true;
@@ -120,17 +120,7 @@ namespace MonumentumBot
                 }
                 else
                 {
-                    foreach (ScheduledMemo memo in memoList)
-                    {
-                        if (element.Message.MessageId.ToString() == memo.MemoID)
-                        {
-                            duplicateMemo = true;
-                        }
-                    }
-                    if (duplicateMemo != true)
-                    {
-                        memoList.Add(newMemo);
-                    }
+                    memoList.Add(newMemo);
                 }
             }
         }
@@ -155,7 +145,7 @@ namespace MonumentumBot
                 {
                     if ((((DynamicTableEntity)retrievedMemo.Result).Properties["MemoCompleted"].BooleanValue != true) && (updatedMemo.MemoCompleted == true))
                     {
-                        finalReplace.Insert(updatedMemo);
+                        finalReplace.Replace(updatedMemo);
                         performReplace = true;
                     }
                 }

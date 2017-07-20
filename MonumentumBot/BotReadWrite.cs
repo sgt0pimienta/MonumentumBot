@@ -16,8 +16,6 @@ namespace MonumentumBot
         {
 
         }
-
-        //Takes an update as an argument and returns a memo
         public ScheduledMemo WriteMemo(Update downloadedUpdate)
         {
             //Checks to see if the update is a request for a /format command before doing anything else
@@ -25,7 +23,7 @@ namespace MonumentumBot
             {
                 string formatMemoID;
                 formatMemoID = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                return new ScheduledMemo(DateTime.Now, "El formato es /minuto/hora(24)/día/mes/año/mensaje. Ejemplo: /25/12/1/2017/Cumpleaños de Emilia", false, formatMemoID, downloadedUpdate.Message.Chat.Id.ToString());
+                return new ScheduledMemo(DateTime.Now, "El formato es /minuto/hora(24)/día/mes/año/mensaje. Ejemplo: 0/13/30/4/2017/Cumpleaños de Emilia", false, formatMemoID, downloadedUpdate.Message.Chat.Id.ToString());
             }
             else
             {
