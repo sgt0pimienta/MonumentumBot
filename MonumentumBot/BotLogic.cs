@@ -17,8 +17,8 @@ namespace MonumentumBot
         // Token: 440873630:AAHTMSXU3-Sp93PL3-9sU2r55vedMVoPfEA
         /*
             TODO LIST IMPORTANTE:
-            CORREGIR ÑÑÑ ANTES DE MANDAR MENSAJE
-            PREGUNTAR A PADRE SI FUNCIONA MY TRY PARSE INTEGER EN BOTREADWRITE.WRITEMEMO
+            Comando te telegram bot para ver recordatorios activos
+            Confirmación de nuevo recordatorio
 
             LIMITACIONES
             - Sólo puede checar queries de 100 entidades a la vez con Azure. Es decir, sólo pueden haber unos 200 memos activos entre todos los usuarios
@@ -127,10 +127,8 @@ namespace MonumentumBot
 
         public void UploadMemos()
         {
-            TableBatchOperation finalInsert = new TableBatchOperation();
-            TableBatchOperation finalReplace = new TableBatchOperation();
-            bool performInsert = false;
-            bool performReplace = false;
+            TableBatchOperation finalMemoUpdate = new TableBatchOperation();
+            bool performUpdate = false;
             foreach (ScheduledMemo updatedMemo in memoList)
             {
                 TableOperation memoRetrieve = TableOperation.Retrieve("memo", updatedMemo.MemoID);
@@ -138,29 +136,23 @@ namespace MonumentumBot
 
                 if (retrievedMemo.Result == null)
                 {
-                    finalInsert.Insert(updatedMemo);
-                    performInsert = true;
+                    finalMemoUpdate.Insert(updatedMemo);
+                    performUpdate = true;
                 }
                 else
                 {
                     if ((((DynamicTableEntity)retrievedMemo.Result).Properties["MemoCompleted"].BooleanValue != true) && (updatedMemo.MemoCompleted == true))
                     {
-                        finalReplace.Replace(updatedMemo);
-                        performReplace = true;
+                        finalMemoUpdate.Replace(updatedMemo);
+                        performUpdate = true;
                     }
                 }
             }
 
-            if (performInsert == true)
+            if (performUpdate == true)
             {
-                cloudMemoTable.ExecuteBatch(finalInsert);
+                cloudMemoTable.ExecuteBatch(finalMemoUpdate);
             }
-
-            if (performReplace == true)
-            {
-                cloudMemoTable.ExecuteBatch(finalReplace);
-            }
-            
         }
 
         public void PostMessage(ScheduledMemo scheduledMemo)
