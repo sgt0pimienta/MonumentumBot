@@ -25,10 +25,6 @@ namespace MonumentumBot
                 formatMemoID = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
                 return new ScheduledMemo(DateTime.Now, "El formato es /minuto/hora(24)/día/mes/año/mensaje. Ejemplo: 0/13/30/4/2017/Cumpleaños de Emilia", false, formatMemoID, downloadedUpdate.Message.Chat.Id.ToString());
             }
-            else if (downloadedUpdate.Message.Text == "/recordatorios@MonumentumBot" || downloadedUpdate.Message.Text == "/Recordatorio@MonumentumBot")
-            {
-                List<String> memoTimeMessagePairs = new List<string>();
-            }
 
 
 
@@ -39,8 +35,14 @@ namespace MonumentumBot
             DateTime scheduledTime;
 
             //Operative variables to parse the userMessage into a scheduledMessage String and a scheduledTime DateTime
+            if (downloadedUpdate.Message.Text == null)
+            {
+                string formatmemoID = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                return new ScheduledMemo(DateTime.Now, "El comando no puede estar vacío", false, formatmemoID, downloadedUpdate.Message.Chat.Id.ToString());
+            }
+
             List<string> userMessageSubrstringList = new List<string>(downloadedUpdate.Message.Text.Split('/'));
-            List<int> dateDataList = new List<int>();
+                List<int> dateDataList = new List<int>();
 
             //Generate a unique memo Id out of the chat ID and the Memo ID
             string newID;
