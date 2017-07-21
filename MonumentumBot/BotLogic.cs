@@ -138,6 +138,13 @@ namespace MonumentumBot
                 {
                     finalMemoUpdate.Insert(updatedMemo);
                     performUpdate = true;
+                    
+                    //User confirmation. The memo is new because Result == null, and validity means it is a correctly formatter memo
+                    if(updatedMemo.MemoValidity == true)
+                    {
+                        PostMessage(updatedMemo.ChatId, "Recordatorio creado. Tiempo: " + updatedMemo.ScheduledTime.ToString() + " Mensaje: " + updatedMemo.ScheduledMessage);
+                    }
+
                 }
                 else
                 {
@@ -158,6 +165,11 @@ namespace MonumentumBot
         public void PostMessage(ScheduledMemo scheduledMemo)
         {
             var k = monumentumBot.SendTextMessageAsync(scheduledMemo.ChatId, scheduledMemo.ScheduledMessage).Result;
+        }
+
+        public void PostMessage(string ChatID, string message)
+        {
+            var k = monumentumBot.SendTextMessageAsync(ChatID, message).Result;
         }
     }
 }
