@@ -19,13 +19,13 @@ namespace MonumentumBot
         public ScheduledMemo WriteMemo(Update downloadedUpdate)
         {
             //Checks to see if the update is a request for a /format command before doing anything else
-            if(downloadedUpdate.Message.Text == "/formato@MonumentumBot" || downloadedUpdate.Message.Text == "/Formato@MonumentumBot")
+            if(downloadedUpdate.Message.Text == "/formato@MonumentumBot" || downloadedUpdate.Message.Text == "/Formato@MonumentumBot" || downloadedUpdate.Message.Text == "/formato")
             {
                 string formatMemoID;
                 formatMemoID = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
                 return new ScheduledMemo(DateTime.Now, "El formato es /minuto/hora(24)/día/mes/año/mensaje. Ejemplo: 0/13/30/4/2017/Cumpleaños de Emilia", false, formatMemoID, downloadedUpdate.Message.Chat.Id.ToString());
             }
-            if(downloadedUpdate.Message.Text == "/start")
+            if(downloadedUpdate.Message.Text == "/start" || downloadedUpdate.Message.Text == "/start@MonumentumBot")
             {
                 string formatMemoId;
                 formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;

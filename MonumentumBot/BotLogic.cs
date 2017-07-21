@@ -89,7 +89,7 @@ namespace MonumentumBot
 
             foreach (ScheduledMemo memo in memoList)
             {
-                if (DateTime.Compare(memo.ScheduledTime, DateTime.Now) <= 0)
+                if (DateTime.Compare(memo.ScheduledTime.ToUniversalTime(), DateTime.UtcNow) <= 0)
                 {
                     PostMessage(memo);
                     memo.MemoCompleted = true;
