@@ -31,7 +31,7 @@ namespace MonumentumBot
             }
 
 
-
+            //TEST
             // El formato para cada mensaje de usuario es "/minuto/hora/día/mes/año/mensaje"
             // Datetime = YMDHMS
             //Main properties of the Memo class
