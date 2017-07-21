@@ -17,11 +17,9 @@ namespace MonumentumBot
         // Token: 440873630:AAHTMSXU3-Sp93PL3-9sU2r55vedMVoPfEA
         /*
             TODO LIST IMPORTANTE:
-            Comando te telegram bot para ver recordatorios activos
-            Confirmación de nuevo recordatorio
-
-            LIMITACIONES
-            - Sólo puede checar queries de 100 entidades a la vez con Azure. Es decir, sólo pueden haber unos 200 memos activos entre todos los usuarios
+            1- Comando te telegram bot para ver recordatorios activos
+            2- Hacer que ignore mensajes vacíos
+            3- Programar funcionalidad de comando /start para que diga hola o algo
 
         */
 
