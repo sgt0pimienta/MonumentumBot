@@ -18,8 +18,6 @@ namespace MonumentumBot
         /*
             TODO LIST IMPORTANTE:
             1- Comando te telegram bot para ver recordatorios activos
-            2- Hacer que ignore mensajes vacíos
-            3- Programar funcionalidad de comando /start para que diga hola o algo
 
         */
 
@@ -103,22 +101,25 @@ namespace MonumentumBot
         {
             foreach (Update element in updateList)
             {
-                var newMemo = monumentumReadWrite.WriteMemo(element);
-                if (newMemo.MemoValidity == false)
+                if (element.Message.Text != null)
                 {
-                    TableOperation invalidMemoRetrieve = TableOperation.Retrieve("memo", newMemo.MemoID);
-                    TableResult invalidMemoRetrieveResult = cloudMemoTable.Execute(invalidMemoRetrieve);
-
-                    if (invalidMemoRetrieveResult.Result == null)
+                    var newMemo = monumentumReadWrite.WriteMemo(element);
+                    if (newMemo.MemoValidity == false)
                     {
-                        PostMessage(newMemo);
-                        newMemo.MemoCompleted = true;
+                        TableOperation invalidMemoRetrieve = TableOperation.Retrieve("memo", newMemo.MemoID);
+                        TableResult invalidMemoRetrieveResult = cloudMemoTable.Execute(invalidMemoRetrieve);
+
+                        if (invalidMemoRetrieveResult.Result == null)
+                        {
+                            PostMessage(newMemo);
+                            newMemo.MemoCompleted = true;
+                            memoList.Add(newMemo);
+                        }
+                    }
+                    else
+                    {
                         memoList.Add(newMemo);
                     }
-                }
-                else
-                {
-                    memoList.Add(newMemo);
                 }
             }
         }

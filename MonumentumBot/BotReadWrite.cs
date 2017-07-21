@@ -25,6 +25,12 @@ namespace MonumentumBot
                 formatMemoID = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
                 return new ScheduledMemo(DateTime.Now, "El formato es /minuto/hora(24)/día/mes/año/mensaje. Ejemplo: 0/13/30/4/2017/Cumpleaños de Emilia", false, formatMemoID, downloadedUpdate.Message.Chat.Id.ToString());
             }
+            if(downloadedUpdate.Message.Text == "/start")
+            {
+                string formatMemoId;
+                formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                return new ScheduledMemo(DateTime.Now, "Bienvenido a RecuerdaBot / Welcome to RecuerdaBot", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+            }
 
 
 
