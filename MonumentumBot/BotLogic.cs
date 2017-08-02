@@ -101,24 +101,50 @@ namespace MonumentumBot
         {
             foreach (Update element in updateList)
             {
-                if (element.Message.Text != null)
+                if (element.Message == null && element.EditedMessage != null)
                 {
-                    var newMemo = monumentumReadWrite.WriteMemo(element);
-                    if (newMemo.MemoValidity == false)
+                    if (element.EditedMessage.Text != null /*&& element.Message != null*/)
                     {
-                        TableOperation invalidMemoRetrieve = TableOperation.Retrieve("memo", newMemo.MemoID);
-                        TableResult invalidMemoRetrieveResult = cloudMemoTable.Execute(invalidMemoRetrieve);
-
-                        if (invalidMemoRetrieveResult.Result == null)
+                        var newMemo = monumentumReadWrite.WriteMemo(element);
+                        if (newMemo.MemoValidity == false)
                         {
-                            PostMessage(newMemo);
-                            newMemo.MemoCompleted = true;
+                            TableOperation invalidMemoRetrieve = TableOperation.Retrieve("memo", newMemo.MemoID);
+                            TableResult invalidMemoRetrieveResult = cloudMemoTable.Execute(invalidMemoRetrieve);
+
+                            if (invalidMemoRetrieveResult.Result == null)
+                            {
+                                PostMessage(newMemo);
+                                newMemo.MemoCompleted = true;
+                                memoList.Add(newMemo);
+                            }
+                        }
+                        else
+                        {
                             memoList.Add(newMemo);
                         }
                     }
-                    else
+                }
+                else if (element.Message != null && element.EditedMessage == null)
+                {
+                    if (element.Message.Text != null /*&& element.Message != null*/)
                     {
-                        memoList.Add(newMemo);
+                        var newMemo = monumentumReadWrite.WriteMemo(element);
+                        if (newMemo.MemoValidity == false)
+                        {
+                            TableOperation invalidMemoRetrieve = TableOperation.Retrieve("memo", newMemo.MemoID);
+                            TableResult invalidMemoRetrieveResult = cloudMemoTable.Execute(invalidMemoRetrieve);
+
+                            if (invalidMemoRetrieveResult.Result == null)
+                            {
+                                PostMessage(newMemo);
+                                newMemo.MemoCompleted = true;
+                                memoList.Add(newMemo);
+                            }
+                        }
+                        else
+                        {
+                            memoList.Add(newMemo);
+                        }
                     }
                 }
             }
