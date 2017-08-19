@@ -53,6 +53,24 @@ namespace MonumentumBot
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
                     return new ScheduledMemo(DateTime.Now, "Bienvenido a RecuerdaBot / Welcome to RecuerdaBot", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
+                if (downloadedUpdate.Message.Text == "/cleanupInvalidMemoCache")
+                {
+                    string formatMemoId;
+                    formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                }
+                if (downloadedUpdate.Message.Text == "/cleanupValidMemoCache")
+                {
+                    string formatMemoId;
+                    formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                }
+                if (downloadedUpdate.Message.Text == "/cleanupAllMemoCache")
+                {
+                    string formatMemoId;
+                    formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                }
             }
             else
             {
@@ -67,6 +85,24 @@ namespace MonumentumBot
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.EditedMessage.Chat.Id.ToString() + "-" + downloadedUpdate.EditedMessage.MessageId;
                     return new ScheduledMemo(DateTime.Now, "Bienvenido a RecuerdaBot / Welcome to RecuerdaBot", false, formatMemoId, downloadedUpdate.EditedMessage.Chat.Id.ToString());
+                }
+                if (downloadedUpdate.Message.Text == "/cleanupInvalidMemoCache")
+                {
+                    string formatMemoId;
+                    formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                }
+                if (downloadedUpdate.Message.Text == "/cleanupValidMemoCache")
+                {
+                    string formatMemoId;
+                    formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                }
+                if (downloadedUpdate.Message.Text == "/cleanupAllMemoCache")
+                {
+                    string formatMemoId;
+                    formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
+                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
             }
 

@@ -140,6 +140,19 @@ namespace MonumentumBot
                                 newMemo.MemoCompleted = true;
                                 memoList.Add(newMemo);
                             }
+
+                            if (newMemo.ScheduledMessage == "/cleanupInvalidMemoCache")
+                            {
+                                CleanupMemoCache("invalid");
+                            }
+                            else if (newMemo.ScheduledMessage == "/cleanupValidMemoCache")
+                            {
+                                CleanupMemoCache("valid");
+                            }
+                            else if (newMemo.ScheduledMessage == "/cleanupAllMemoCache")
+                            {
+                                CleanupMemoCache("all");
+                            }
                         }
                         else
                         {
@@ -195,6 +208,51 @@ namespace MonumentumBot
         public void PostMessage(string ChatID, string message)
         {
             var k = monumentumBot.SendTextMessageAsync(ChatID, message).Result;
+        }
+
+        public void CleanupMemoCache(string validityTarget)
+        {
+            // This method deletes invalid, valid, or all memos that have been completed.
+            // Here, all memos with "MemoCompleted" = true are retrieved
+            TableQuery<ScheduledMemo> query = new TableQuery<ScheduledMemo>().Where(TableQuery.GenerateFilterConditionForBool("MemoCompleted", QueryComparisons.Equal, true));
+            var queryResult = cloudMemoTable.ExecuteQuery(query);
+            TableBatchOperation massDelete = new TableBatchOperation();
+
+            //These ifs check the validity target passed as argument when calling the method. Then they add all memos corresponding to the validity target to the a table delete operation
+            if (validityTarget == "invalid")
+            {
+                foreach (ScheduledMemo memo in queryResult)
+                {
+                    if (memo.MemoValidity == false)
+                    {
+                        TableOperation tableDeleteOperation = TableOperation.Delete(memo);
+                        massDelete.Add(tableDeleteOperation);
+                    }
+                }
+            }
+            else if (validityTarget == "valid")
+            {
+                foreach (ScheduledMemo memo in queryResult)
+                {
+                    if (memo.MemoValidity == true)
+                    {
+                        TableOperation tableDeleteOperation = TableOperation.Delete(memo);
+                        massDelete.Add(tableDeleteOperation);
+                    }
+                }
+            }
+            else if (validityTarget == "all")
+            {
+                foreach (ScheduledMemo memo in queryResult)
+                {
+                        TableOperation tableDeleteOperation = TableOperation.Delete(memo);
+                        massDelete.Add(tableDeleteOperation);
+                }
+            }
+
+            // Table delete is executed
+            cloudMemoTable.ExecuteBatch(massDelete);
+
         }
     }
 }
