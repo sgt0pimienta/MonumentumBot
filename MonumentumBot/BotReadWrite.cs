@@ -185,6 +185,11 @@ namespace MonumentumBot
 
             //Generate scheduled time from snipped user text (the message is snipped above)
             scheduledTime = new DateTime(dateDataList[4], dateDataList[3], dateDataList[2], dateDataList[1], dateDataList[0], 0);
+            
+            if (scheduledTime.Year < DateTime.Now.Year - 1)
+            {
+                return new ScheduledMemo(DateTime.Now.AddSeconds(15), "El año es anterior al año actual", false, newID, downloadedUpdate.Message.Chat.Id.ToString());
+            }
 
             //Return memo. Message, Time and Memo ID have been added, the chat ID is ripped here, validity is given out as true due to the IF before.
             if (isEdited == false)

@@ -209,7 +209,15 @@ namespace MonumentumBot
 
             if (performUpdate == true)
             {
-                cloudMemoTable.ExecuteBatch(finalMemoUpdate);
+                try
+                {
+                    cloudMemoTable.ExecuteBatch(finalMemoUpdate);
+
+                }
+                catch (StorageException ex)
+                {
+                    throw;
+                }
             }
         }
 
