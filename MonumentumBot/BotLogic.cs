@@ -117,6 +117,19 @@ namespace MonumentumBot
                                 newMemo.MemoCompleted = true;
                                 memoList.Add(newMemo);
                             }
+
+                            if (newMemo.ScheduledMessage == "IMC")
+                            {
+                                CleanupMemoCache("invalid");
+                            }
+                            else if (newMemo.ScheduledMessage == "VMC")
+                            {
+                                CleanupMemoCache("valid");
+                            }
+                            else if (newMemo.ScheduledMessage == "AMC")
+                            {
+                                CleanupMemoCache("all");
+                            }
                         }
                         else
                         {
@@ -141,15 +154,15 @@ namespace MonumentumBot
                                 memoList.Add(newMemo);
                             }
 
-                            if (newMemo.ScheduledMessage == "/cleanupInvalidMemoCache")
+                            if (newMemo.ScheduledMessage == "IMC")
                             {
                                 CleanupMemoCache("invalid");
                             }
-                            else if (newMemo.ScheduledMessage == "/cleanupValidMemoCache")
+                            else if (newMemo.ScheduledMessage == "VMC")
                             {
                                 CleanupMemoCache("valid");
                             }
-                            else if (newMemo.ScheduledMessage == "/cleanupAllMemoCache")
+                            else if (newMemo.ScheduledMessage == "AMC")
                             {
                                 CleanupMemoCache("all");
                             }
@@ -225,8 +238,12 @@ namespace MonumentumBot
                 {
                     if (memo.MemoValidity == false)
                     {
-                        TableOperation tableDeleteOperation = TableOperation.Delete(memo);
-                        massDelete.Add(tableDeleteOperation);
+                        TimeSpan timeSpan = memo.Timestamp - DateTime.Now;
+                        if (timeSpan.Days >= 2)
+                        {
+                            TableOperation tableDeleteOperation = TableOperation.Delete(memo);
+                            massDelete.Add(tableDeleteOperation);
+                        }
                     }
                 }
             }
@@ -234,10 +251,14 @@ namespace MonumentumBot
             {
                 foreach (ScheduledMemo memo in queryResult)
                 {
-                    if (memo.MemoValidity == true)
+                    if (memo.MemoValidity == false)
                     {
-                        TableOperation tableDeleteOperation = TableOperation.Delete(memo);
-                        massDelete.Add(tableDeleteOperation);
+                        TimeSpan timeSpan = memo.Timestamp - DateTime.Now;
+                        if (timeSpan.Days >= 2)
+                        {
+                            TableOperation tableDeleteOperation = TableOperation.Delete(memo);
+                            massDelete.Add(tableDeleteOperation);
+                        }
                     }
                 }
             }
@@ -245,14 +266,23 @@ namespace MonumentumBot
             {
                 foreach (ScheduledMemo memo in queryResult)
                 {
-                        TableOperation tableDeleteOperation = TableOperation.Delete(memo);
-                        massDelete.Add(tableDeleteOperation);
+                    if (memo.MemoValidity == false)
+                    {
+                        TimeSpan timeSpan = memo.Timestamp - DateTime.Now;
+                        if (timeSpan.Days >= 2)
+                        {
+                            TableOperation tableDeleteOperation = TableOperation.Delete(memo);
+                            massDelete.Add(tableDeleteOperation);
+                        }
+                    }
                 }
             }
 
             // Table delete is executed
-            cloudMemoTable.ExecuteBatch(massDelete);
-
+            if (massDelete.Count > 0)
+            {
+                cloudMemoTable.ExecuteBatch(massDelete);
+            }
         }
     }
 }

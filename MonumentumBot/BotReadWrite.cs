@@ -57,19 +57,19 @@ namespace MonumentumBot
                 {
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                    return new ScheduledMemo(DateTime.Now, "IMC", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
                 if (downloadedUpdate.Message.Text == "/cleanupValidMemoCache")
                 {
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                    return new ScheduledMemo(DateTime.Now, "VMC", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
                 if (downloadedUpdate.Message.Text == "/cleanupAllMemoCache")
                 {
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                    return new ScheduledMemo(DateTime.Now, "AMC", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
             }
             else
@@ -90,19 +90,19 @@ namespace MonumentumBot
                 {
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                    return new ScheduledMemo(DateTime.Now, "IMC", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
                 if (downloadedUpdate.Message.Text == "/cleanupValidMemoCache")
                 {
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                    return new ScheduledMemo(DateTime.Now, "VMC", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
                 if (downloadedUpdate.Message.Text == "/cleanupAllMemoCache")
                 {
                     string formatMemoId;
                     formatMemoId = downloadedUpdate.Message.Chat.Id.ToString() + "-" + downloadedUpdate.Message.MessageId;
-                    return new ScheduledMemo(DateTime.Now, "ScheduledMemoCleanupProcedure", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
+                    return new ScheduledMemo(DateTime.Now, "AMC", false, formatMemoId, downloadedUpdate.Message.Chat.Id.ToString());
                 }
             }
 
